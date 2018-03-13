@@ -1,10 +1,7 @@
 {
     "employees": [
-        { "firstName":"Bill" , "password":"Gates" },
-        { "firstName":"George" , "password":"Bush" },
-        { "firstName":"Thomas" , "password":"Carter" }
-        ],
-    "managers" : [
-        { "firstName":"Go" , "password":"What" }
-    ]
+        { "firstName":"Bill" , "password":"Gates" , "type" : "Worker"},
+        { "firstName":"George" , "password":"Bush" , "type" : "Worker"},
+        { "firstName":"Thomas" , "password":"Carter", "type" : "Managers" }
+        ]
 }

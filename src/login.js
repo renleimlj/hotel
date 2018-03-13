@@ -5,12 +5,22 @@ import 'antd/lib/form/style/css'
 import 'antd/lib/input/style/css'
 import 'antd/lib/button/style/css'
 import 'antd/lib/checkbox/style/css'
+import "whatwg-fetch"
+import "babel-polyfill"
 
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
 
 const FormItem = Form.Item;
 
 class NormalLoginForm extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            name : "请输入用户名",
+            password : "请输入密码"
+        }
+    }
+
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -19,6 +29,41 @@ class NormalLoginForm extends React.Component {
       }
     });
   }
+
+  nameChange = (e) => {
+      this.setState({name:e.target.value})
+  } 
+
+  passwordChange = (e) => {
+    this.setState({password:e.target.value})
+}
+
+  checkup() {
+      fetch("users.json")
+      .then(response => response.json())
+      .then(data => {
+          console.log(data.employees)
+          let employees = data.employees
+          var s = 0
+          for (var i = 0; i < employees.length; i++) {
+              if (employees[i].firstName === this.state.name) {
+                  if (employees[i].password !== this.state.password) {
+                      alert("密码输入错误")
+                      s = 1
+                  } else {
+                      s = 1
+                    window.location.href="hotel"
+                  }
+              }
+          }
+          if (s === 0)
+          alert("无该用户名")
+      })
+      .catch(error => {
+          console.log(error)
+      })
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
@@ -29,14 +74,14 @@ class NormalLoginForm extends React.Component {
           {getFieldDecorator('userName', {
             rules: [{ required: true, message: 'Please input your username!' }],
           })(
-            <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Username" />
+            <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Username"  onChange={this.nameChange}/>
           )}
         </FormItem>
         <FormItem>
           {getFieldDecorator('password', {
             rules: [{ required: true, message: 'Please input your Password!' }],
           })(
-            <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="Password" />
+            <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="Password" onChange={this.passwordChange}/>
           )}
         </FormItem>
         <FormItem>
@@ -48,7 +93,7 @@ class NormalLoginForm extends React.Component {
           )}
           <a className="login-form-forgot">Forgot password</a>
           <br/>
-          <Button type="primary" htmlType="submit" className="login-form-button">
+          <Button type="primary" htmlType="submit" className="login-form-button" onClick={this.checkup.bind(this)}>
             Log in
           </Button>
         </FormItem>
