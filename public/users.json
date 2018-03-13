@@ -1,0 +1,10 @@
+{
+    "employees": [
+        { "firstName":"Bill" , "password":"Gates" },
+        { "firstName":"George" , "password":"Bush" },
+        { "firstName":"Thomas" , "password":"Carter" }
+        ],
+    "managers" : [
+        { "firstName":"Go" , "password":"What" }
+    ]
+}
